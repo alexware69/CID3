@@ -628,7 +628,7 @@ class Cid3 : Serializable {
                     sum += attValue
                 }
                 counter++
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 //continue;
             }
         }
@@ -690,7 +690,7 @@ class Cid3 : Serializable {
         try {
             input = bin.readLine()
             currentLine++
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to read first line from test file.")
             exitProcess(1)
         }
@@ -722,7 +722,7 @@ class Cid3 : Serializable {
                             try {
                                 next.toDouble()
                                 point.attributes[i] = getSymbolValue(i, next)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 System.err.println("Error reading continuous value in test data at line #$currentLine, column #$currentColumn.")
                                 exitProcess(1)
                             }
@@ -738,7 +738,7 @@ class Cid3 : Serializable {
                 try {
                     input = bin.readLine()
                     currentLine++
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     System.err.println("Unable to read line #$currentLine from test file.")
                     exitProcess(1)
                 }
@@ -746,7 +746,7 @@ class Cid3 : Serializable {
         }
         try {
             bin.close()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to close test file.")
             exitProcess(1)
         }
@@ -776,7 +776,7 @@ class Cid3 : Serializable {
         try {
             val inputFile = File(filename)
             `in` = FileInputStream(inputFile)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to open data file: $filename\n")
             exitProcess(1)
         }
@@ -788,7 +788,7 @@ class Cid3 : Serializable {
         try {
             input = bin.readLine()
             currentLine++
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to read first line from data file.")
             exitProcess(1)
         }
@@ -820,7 +820,7 @@ class Cid3 : Serializable {
                             try {
                                 next.toDouble()
                                 point.attributes[i] = getSymbolValue(i, next)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 System.err.println("Error reading continuous value in train data at line #$currentLine, column #$currentColumn.")
                                 exitProcess(1)
                             }
@@ -836,14 +836,14 @@ class Cid3 : Serializable {
             try {
                 input = bin.readLine()
                 currentLine++
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 System.err.println("Unable to read line #$currentLine from data file.")
                 exitProcess(1)
             }
         }
         try {
             bin.close()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to close data file.")
             exitProcess(1)
         }
@@ -896,7 +896,7 @@ class Cid3 : Serializable {
                 val inputFile = File("$fileName.names")
                 FileInputStream(inputFile)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to open names file.")
             exitProcess(1)
         }
@@ -907,7 +907,7 @@ class Cid3 : Serializable {
         try {
             bin.readLine()
             lineNumber++
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Unable to read first line in names file.")
             exitProcess(1)
         }
@@ -916,7 +916,7 @@ class Cid3 : Serializable {
         try {
             input = bin.readLine()
             lineNumber++
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             val ln = lineNumber + 1
             System.err.println("Unable to read line #$ln in names file.")
             exitProcess(1)
@@ -936,7 +936,7 @@ class Cid3 : Serializable {
             try {
                 input = bin.readLine()
                 lineNumber++
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 val ln = lineNumber + 1
                 System.err.println("Unable to read line #$ln in names file.")
                 exitProcess(1)
@@ -959,7 +959,7 @@ class Cid3 : Serializable {
         domainsIndexToValue = ArrayList()
         domainsValueToIndex = ArrayList()
         //domains = new ArrayList[numAttributes];
-        for (i in 0 until numAttributes) {
+        repeat(numAttributes) {
             domainsIndexToValue.add(HashMap())
         }
         val comparator = NaturalOrderComparator()
@@ -1123,7 +1123,7 @@ class Cid3 : Serializable {
             objectInputStream = ObjectInputStream(`is`)
             ret = objectInputStream.readObject() as Cid3
             objectInputStream.close()
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             print("Error deserializing file.")
             print("\n")
             exitProcess(1)
@@ -1450,7 +1450,7 @@ class Cid3 : Serializable {
         }
         decomposeNode(root, selectedAttributes, 0)
         var current: Thread?
-        while (globalThreads.size > 0) {
+        while (globalThreads.isNotEmpty()) {
             globalThreads.removeAll(Collections.singleton(null))
             current = globalThreads.last()
             if (current!=null && !current.isAlive) {
@@ -1537,7 +1537,7 @@ class Cid3 : Serializable {
         root.data.shuffle()
 
         //Initialize chunks
-        for (i in 0..9) {
+        repeat(10) {
             crossValidationChunks.add(ArrayList())
         }
 
@@ -1594,7 +1594,7 @@ class Cid3 : Serializable {
             threads.add(thread)
             thread.start()
         }
-        while (threads.size > 0) {
+        while (threads.isNotEmpty()) {
             if (!threads[threads.size - 1].isAlive) threads.removeAt(threads.size - 1)
         }
         //Stop the animation
@@ -1616,7 +1616,7 @@ class Cid3 : Serializable {
         val start = Instant.now()
 
         //Initialize array
-        for (i in 0..9) {
+        repeat(10) {
             cvRandomForests.add(ArrayList())
         }
         if (testDataExists) {
@@ -1632,7 +1632,7 @@ class Cid3 : Serializable {
         root.data.shuffle()
 
         //Initialize chunks
-        for (i in 0..9) {
+        repeat(10) {
             crossValidationChunks.add(ArrayList())
         }
         //First check if there is a remainder
@@ -1726,7 +1726,7 @@ class Cid3 : Serializable {
             threads.add(thread)
             thread.start()
         }
-        while (threads.size > 0) {
+        while (threads.isNotEmpty()) {
             if (!threads[threads.size - 1].isAlive) threads.removeAt(threads.size - 1)
         }
         if (!cv) {
@@ -2349,7 +2349,7 @@ class Cid3 : Serializable {
                                 break
                             } else attributeValue = id3.domainsValueToIndex[currentNode.decompositionAttribute][s]!!
                             break
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             println("Please enter a valid value:")
                         }
                     }
@@ -2420,7 +2420,7 @@ class Cid3 : Serializable {
         try {
             fileOut = FileWriter(fileOutStr, false)
         }
-        catch (e: Exception) {
+        catch (_: Exception) {
             System.err.println("Error creating temporal file.")
             exitProcess(1)
         }
@@ -2437,7 +2437,7 @@ class Cid3 : Serializable {
                 val inputFile = File(casesFileLocal)
                 inCases = FileInputStream(inputFile)
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 System.err.println("Unable to open cases file.")
                 exitProcess(1)
             }
@@ -2447,7 +2447,7 @@ class Cid3 : Serializable {
             try {
                 input = bin.readLine()
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 System.err.println("Unable to read line:")
                 exitProcess(1)
             }
@@ -2471,7 +2471,7 @@ class Cid3 : Serializable {
                         } else {
                             try {
                                 point.attributes[i] = id3.getSymbolValue(i, next)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 System.err.println("Error reading continuous value in train data.")
                                 exitProcess(1)
                             }
@@ -2505,7 +2505,7 @@ class Cid3 : Serializable {
                 try {
                     input = bin.readLine()
                 }
-                catch (e: Exception) {
+                catch (_: Exception) {
                     System.err.println("Unable to read line.")
                     exitProcess(1)
                 }
@@ -2529,7 +2529,7 @@ class Cid3 : Serializable {
         val fileOut: FileWriter?
         try {
             fileOut = FileWriter(fileOutStr, false)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             System.err.println("Error creating temporal file.")
             exitProcess(1)
         }
@@ -2545,7 +2545,7 @@ class Cid3 : Serializable {
                 if (!casesFileLocal.endsWith(".cases")) casesFileLocal += ".cases"
                 val inputFile = File(casesFileLocal)
                 inCases = FileInputStream(inputFile)
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 System.err.println("Unable to open cases file.")
                 exitProcess(1)
             }
@@ -2555,7 +2555,7 @@ class Cid3 : Serializable {
             try {
                 input = bin.readLine()
             }
-            catch (e: Exception) {
+            catch (_: Exception) {
                 System.err.println("Unable to read line:")
                 exitProcess(1)
             }
@@ -2579,7 +2579,7 @@ class Cid3 : Serializable {
                         } else {
                             try {
                                 point.attributes[i] = id3.getSymbolValue(i, next)
-                            } catch (e: Exception) {
+                            } catch (_: Exception) {
                                 System.err.println("Error reading continuous value in train data.")
                                 exitProcess(1)
                             }
@@ -2621,7 +2621,7 @@ class Cid3 : Serializable {
                 //continue the loop
                 try {
                     input = bin.readLine()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     System.err.println("Unable to read line.")
                     exitProcess(1)
                 }
@@ -2738,7 +2738,7 @@ class Cid3 : Serializable {
                             val value: Double = if (s == "?") id3.meanValues[i] else s.toDouble()
                             example.attributes[i] = id3.getSymbolValue(i, value.toString())
                             break
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             println("Please enter a valid value:")
                         }
                     }
@@ -2888,7 +2888,7 @@ class Cid3 : Serializable {
                     val intThreads = cmd.getOptionValue("threads").toInt()
                     me.maxThreads = intThreads
                 }
-                catch (e:java.lang.Exception){
+                catch (_:java.lang.Exception){
                     print("Error: Incorrect number of threads format")
                     print("\n")
                     exitProcess(1)
@@ -2913,7 +2913,7 @@ class Cid3 : Serializable {
                 val numberOfTrees = cmd.getOptionValue("forest")
                 try {
                     me.numberOfTrees = numberOfTrees.toInt()
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     print("Error: Incorrect number of trees")
                     print("\n")
                     exitProcess(1)
